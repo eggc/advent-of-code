@@ -8,7 +8,9 @@ end
 
 def each_lines(input_file_name, &block)
   if block_given?
-    File.foreach("#{__dir__}/#{input_file_name}", block)
+    File.foreach("#{__dir__}/#{input_file_name}") do |line|
+      yield(line)
+    end
   else
     File.foreach("#{__dir__}/#{input_file_name}")
   end
