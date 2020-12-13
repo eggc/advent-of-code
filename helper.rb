@@ -6,8 +6,10 @@ def read_lines(input_file_name)
   end
 end
 
-def each_lines(input_file_name)
-  File.foreach("#{__dir__}/#{input_file_name}") do |line|
-    yield(line)
+def each_lines(input_file_name, &block)
+  if block_given?
+    File.foreach("#{__dir__}/#{input_file_name}", block)
+  else
+    File.foreach("#{__dir__}/#{input_file_name}")
   end
 end
