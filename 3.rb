@@ -46,7 +46,7 @@ class Map
   end
 end
 
-def solve(input_file_name)
+def solve(input_file_name, slope_x, slope_y)
   lines = each_lines(input_file_name).map {|line| line }
 
   count = 0
@@ -58,8 +58,8 @@ def solve(input_file_name)
 
     # 次の座標を探し続ける
     while(y < map.height - 1) do
-      x += 3
-      y += 1
+      x += slope_x
+      y += slope_y
 
       if map.is_tree?(x, y)
         count += 1
@@ -70,5 +70,21 @@ def solve(input_file_name)
   count
 end
 
-puts(solve("3.sample.txt"))
-puts(solve("3.input.txt"))
+def solve2
+  slopes = [[1,1], [3,1], [5,1], [7,1], [1,2]]
+
+  results = slopes.map do |slope|
+    solve("3.input.txt", *slope).tap do |result|
+      puts(result)
+    end
+  end
+
+  results.inject(:*)
+end
+
+# 3-1
+puts(solve("3.sample.txt", 3, 1))
+puts(solve("3.input.txt", 3, 1))
+
+# 3-2
+puts(solve2)
