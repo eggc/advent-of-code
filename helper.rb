@@ -5,3 +5,9 @@ def read_lines(input_file_name)
     end
   end
 end
+
+def each_lines(input_file_name)
+  File.foreach("#{__dir__}/#{input_file_name}") do |line|
+    yield(line)
+  end
+end
