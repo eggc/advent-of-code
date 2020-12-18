@@ -13,7 +13,7 @@ class Program
   def step
     instraction = @instractions[@program_counter]
 
-    raise StandardError('Infinite loop!') if instraction.covered
+    raise StandardError.new('Infinite loop!') if instraction.covered
 
     instraction.covered = true
 
@@ -26,5 +26,42 @@ class Program
     when "jmp"
       @program_counter += instraction.argument.to_i
     end
+  end
+
+  def run
+    while(@program_counter < length) do
+      step
+    end
+
+    @accumulator
+  end
+
+  # エラーがおきたらもとに戻してから再度エラーを出す。
+  def try_repair(i)
+    if switch_instraction(i)
+      run
+    end
+  rescue StandardError
+    @program_counter = 0
+    @accumulator = 0
+    @instractions.each { |instraction| instraction.covered = false }
+    switch_instraction(i)
+    false
+  end
+
+  def switch_instraction(i)
+
+    instraction = @instractions[i]
+
+    case instraction.operation
+    when "jmp"
+      instraction.operation = "nop"
+    when "nop"
+      instraction.operation = "jmp"
+    end
+  end
+
+  def length
+    @instractions.length
   end
 end
