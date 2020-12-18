@@ -13,10 +13,12 @@ class RuleSet
   end
 
   def contain?(container_color, component_color)
-    @rule_map[container_color].any? do |rules|
-      rules.any? do |rule|
-        rule.color == component_color || contain?(rule.color, component_color)
-      end
+    @rule_map[container_color]&.any? do |rule|
+      rule.color == component_color || contain?(rule.color, component_color)
     end
+  end
+
+  def colors
+    @rule_map.keys
   end
 end

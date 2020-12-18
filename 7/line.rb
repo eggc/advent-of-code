@@ -17,9 +17,10 @@ class Line
     s.pre_match.tap { |x| @color = x }
     s.string = s.rest
 
-    unless s.scan(/no other bags./)
-      @rules << parse_component_rule(s)
-      @rules << parse_component_rule(s) if s.rest?
+    if s.scan(/no other bags./)
+      @rules << Rule.new(@color)
+    else
+      @rules << parse_component_rule(s) while s.rest?
     end
 
     @rules
