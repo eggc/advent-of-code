@@ -19,6 +19,11 @@ def solve(input_file_name)
   end
 end
 
+def solve_2(input_file_name)
+  rule_set = build_rule_set(input_file_name)
+  rule_set.number_of_components('shiny gold') - 1
+end
+
 def build_rule_set(input_file_name)
   RuleSet.new.tap do |rule_set|
     each_lines(input_file_name) do |line|
@@ -32,3 +37,5 @@ end
 
 pp solve_sample
 pp solve_1
+pp solve_2('7/sample.txt')
+pp solve_2('7/input.txt')

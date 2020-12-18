@@ -18,6 +18,16 @@ class RuleSet
     end
   end
 
+  # 与えられた色のカバンがあるとして、
+  # そのカバンがもつことのできるカバンの個数を返す（与えられたカバン自身を含む）
+  def number_of_components(container_color)
+    return 1 if @rule_map[container_color].nil?
+
+    @rule_map[container_color]&.sum do |rule|
+      rule.size * number_of_components(rule.color)
+    end + 1
+  end
+
   def colors
     @rule_map.keys
   end
